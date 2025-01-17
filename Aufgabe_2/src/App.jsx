@@ -1,60 +1,37 @@
 import React, { useState } from "react";
-import Header from "./components/Header";
-import InputField from "./components/InputField";
-import ItemList from "./components/ItemList";
+import Card from "./components/Card";
 import ButtonList from "./components/ButtonList";
-import "./App.css";
+import List from "./components/List";
+import image from "./assets/image.png";
 
 function App() {
-  const [items, setItems] = useState([]);
-  const [input, setInput] = useState("");
+  const [rows] = useState([["Coffee"], ["Tea"], ["Beer"]]);
 
-  const addItem = () => {
-    if (input.trim()) {
-      setItems([...items, { text: input, completed: false }]);
-      setInput("");
-    }
-  };
-
-  const toggleComplete = (index) => {
-    setItems(
-      items.map((item, i) =>
-        i === index ? { ...item, completed: !item.completed } : item
-      )
-    );
-  };
-
-  const deleteItem = (index) => {
-    setItems(items.filter((_, i) => i !== index));
-  };
+  const cards = [
+    {
+      title: "John Doe",
+      content: "Architect & Engineer",
+      image: image,
+    },
+  ];
 
   const buttons = [
     {
-      text: "Hinzufügen",
-      onClick: addItem,
-      style: { background: "green", color: "white" },
-    },
-    {
-      text: "Alles Löschen",
-      onClick: () => setItems([]),
-      style: { background: "red", color: "white" },
+      text: "Sendar",
+      onClick: () => alert("Button clicked"),
     },
   ];
 
   return (
-    <div className="app">
-      <Header title="Einkaufswagen" />
-      <InputField
-        value={input}
-        onChange={setInput}
-        placeholderText="Neues Produkt eingeben"
-      />
-      <ItemList
-        items={items}
-        onToggleComplete={toggleComplete}
-        onDelete={deleteItem}
-      />
+    <div className="app space-y-8 p-8">
+      <h2 className="text-2xl font-bold">Liste</h2>
+      <List rows={rows} />
+
+      <h2 className="text-2xl font-bold">Button</h2>
       <ButtonList buttons={buttons} />
+
+      <h2 className="text-2xl font-bold">Card</h2>
+      <Card cards={cards} />
     </div>
   );
 }

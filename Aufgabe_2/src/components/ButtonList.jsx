@@ -2,9 +2,13 @@ import React from "react";
 
 function ButtonList({ buttons }) {
     return (
-        <div className="button-list">
+        <div className="flex flex-col items-start space-y-2">
             {buttons.map((button, index) => (
-                <button key={index} onClick={button.onClick} style={button.style} className="button-item">
+                <button
+                    key={index}
+                    onClick={button.onClick}
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+                >
                     {button.text}
                 </button>
             ))}
