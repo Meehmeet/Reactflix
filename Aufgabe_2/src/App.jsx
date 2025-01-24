@@ -1,37 +1,35 @@
 import React, { useState } from "react";
-import Card from "./components/Card";
-import ButtonList from "./components/ButtonList";
+import SearchBar from "./components/SearchBar";
+import CardForm from "./components/CardForm";
 import List from "./components/List";
 import image from "./assets/image.png";
 
 function App() {
-  const [rows] = useState([["Coffee"], ["Tea"], ["Beer"]]);
+  const [cards, setCards] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const cards = [
-    {
-      title: "John Doe",
-      content: "Architect & Engineer",
-      image: image,
-    },
-  ];
+  const filteredCards = cards.filter((card) =>
+    card.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const buttons = [
-    {
-      text: "Sendar",
-      onClick: () => alert("Button clicked"),
-    },
-  ];
+  const handleAddCard = (title, content) => {
+    setCards([...cards, { title, content, image }]);
+  };
+
+  const handleDeleteCard = (index) => {
+    setCards(cards.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="app space-y-8 p-8">
-      <h2 className="text-2xl font-bold">Liste</h2>
-      <List rows={rows} />
+      <h1 className="text-3xl font-bold">Kartenverwaltung</h1>
 
-      <h2 className="text-2xl font-bold">Button</h2>
-      <ButtonList buttons={buttons} />
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-      <h2 className="text-2xl font-bold">Card</h2>
-      <Card cards={cards} />
+      <CardForm onAddCard={handleAddCard} />
+
+      <h2 className="text-2xl font-bold">Karten</h2>
+      <List cards={filteredCards} onDeleteCard={handleDeleteCard} />
     </div>
   );
 }
