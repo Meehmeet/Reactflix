@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import CardForm from "./components/CardForm";
 import List from "./components/List";
 import image from "./assets/image.png";
+import ApiData from "./components/ApiData";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -20,9 +21,19 @@ function App() {
     setCards(cards.filter((_, i) => i !== index));
   };
 
+  const handleApiData = (apiCards) => {
+    setCards((prevCards) => {
+      const existingTitles = new Set(prevCards.map((card) => card.title));
+      const newCards = apiCards.filter((card) => !existingTitles.has(card.title));
+      return [...prevCards, ...newCards];
+    });
+  };
+
   return (
     <div className="app space-y-8 p-8">
       <h1 className="text-3xl font-bold">Kartenverwaltung</h1>
+
+      <ApiData onFetchData={handleApiData} />
 
       <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
