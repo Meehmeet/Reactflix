@@ -2,23 +2,20 @@ import React from "react";
 import "../styles/movie.css";
 
 function Pagination({ currentPage, totalPages, onPageChange }) {
+  // Hilfsfunktion für bessere Lesbarkeit
+  const isActivePage = (pageNum) => currentPage === pageNum;
+  
   const getPageNumbers = () => {
     const pages = [];
-    let startPage = Math.max(1, currentPage - 3);
-    let endPage = Math.min(totalPages, currentPage + 3);
-
-    if (currentPage <= 4) {
-      endPage = Math.min(7, totalPages);
-    } else if (currentPage >= totalPages - 3) {
-      startPage = Math.max(totalPages - 6, 1);
-    }
+    const startPage = Math.max(1, currentPage - 3);
+    const endPage = Math.min(totalPages, startPage + 6);
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(
         <button
           key={i}
           onClick={() => onPageChange(i)}
-          className={`page-button ${currentPage === i ? "active" : ""}`}
+          className={`page-button ${isActivePage(i) ? "active" : ""}`}
         >
           {i}
         </button>
