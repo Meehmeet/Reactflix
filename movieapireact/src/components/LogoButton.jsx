@@ -1,15 +1,19 @@
-import React from "react";
+import React, { memo } from "react";
 import "../styles/movie.css";
 
-function LogoButton({ onClick }) {
+const LogoButton = memo(function LogoButton({ onClick }) {
+  const handleLogoClick = () => {
+    onClick();
+  };
+
   return (
     <div className="image-wrapper">
       <img src="./images/Nachos.png" alt="nacho" className="nacho-img" />
-      <button onClick={onClick} className="logo-button">
+      <button onClick={handleLogoClick} className="logo-button">
         <img src="./images/Kasflix.png" alt="movie" className="logo-img" />
       </button>
     </div>
   );
-}
+});
 
 export default LogoButton;
