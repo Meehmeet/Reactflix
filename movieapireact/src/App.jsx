@@ -12,72 +12,92 @@ function App() {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const apiKey = "d1d69919";
+  const MOVIES_PER_PAGE = 26;
+  const API_KEY = "d1d69919";
 
-  useEffect(() => { fetchRandomMovies(); }, []);
+  const randomTitles = [
+    "Joker", "Batman", "Inception", "Avengers", "Spiderman",
+    "Titanic", "Gladiator", "Toy Story", "Interstellar",
+    "Lion King", "Frozen", "The Godfather", "Lord of the Rings", "Harry Potter",
+    "Terminator", "Shrek", "Finding Nemo", "Iron Man", "Deadpool",
+    "Black Panther", "Django", "Pulp Fiction", "Pirates of the Caribbean", "Thor",
+    "Mad Max", "John Wick", "The Dark Knight", "Guardians of the Galaxy", "Star Wars",
+    "Fast and Furious", "Back to the Future", "Wonder Woman", "The Hangover",
+    "Avatar", "The Wolf of Wall Street", "Sherlock Holmes", "Aquaman", "Doctor Strange",
+    "The Revenant", "The Martian"
+  ];
 
-  const fetchRandomMovies = () => {
+  useEffect(() => { 
+    fetchRandomMovies(); 
+  }, []);
+
+  const fetchRandomMovies = async () => {
     setSearchQuery("");
-    const randomTitles = [
-      "Joker", "Batman", "Inception", "Avengers", "Spiderman",
-      "Titanic", "Gladiator", "Toy Story", "Interstellar",
-      "Lion King", "Frozen", "The Godfather", "Lord of the Rings", "Harry Pötter",
-      "Terminator", "Shrek", "Finding Nemo", "Iron Man", "Deadpool",
-      "Black Panther", "Django", "Pulp Fiction", "Pirates of the Caribbean", "Thor",
-      "Mad Max", "John Wick", "The Dark Knight", "Guardians of the Galaxy", "Star Wars",
-      "Fast and Furious", "Back to the Future", "Wonder Woman", "The Hangover",
-      "Avatar", "The Wolf of Wall Street", "Sherlock Holmes", "Aquaman", "Doctor Strange", "The Revenant", "The Martian"
-    ];
+    const shuffledTitles = shuffleArray([...randomTitles]);
+    
+    try {
+      const promises = shuffledTitles.map(title =>
+        fetch(`http://www.omdbapi.com/?s=${title}&apikey=${API_KEY}`)
+          .then(response => response.json())
+          .then(data => data.Search || [])
+      );
 
-    const shuffledTitles = shuffleArray(randomTitles);
-    const promises = shuffledTitles.map(title =>
-      fetch(`http://www.omdbapi.com/?s=${title}&apikey=${apiKey}`)
-        .then(response => response.json())
-        .then(data => data.Search || [])
-    );
-
-    Promise.all(promises).then(results => {
+      const results = await Promise.all(promises);
       const allMovies = results.flat();
       setMovies(allMovies);
-      setTotalPages(Math.ceil(allMovies.length / 26));
+      setTotalPages(Math.ceil(allMovies.length / MOVIES_PER_PAGE));
       setCurrentPage(1);
-    });
+    } catch (error) {
+      console.error("Error fetching random movies:", error);
+      setMovies([]);
+    }
   };
 
-  const searchMovies = (query, page = 1) => {
-    fetch(`http://www.omdbapi.com/?s=${query}&page=${page}&apikey=${apiKey}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.Search) {
-          setMovies(data.Search);
-          setTotalPages(Math.ceil(data.totalResults / 10));
-        } else {
-          setMovies([]);
-          setTotalPages(1);
-        }
-      });
+  const searchMovies = async (query, page = 1) => {
+    try {
+      const response = await fetch(
+        `http://www.omdbapi.com/?s=${query}&page=${page}&apikey=${API_KEY}`
+      );
+      const data = await response.json();
+      
+      if (data.Search) {
+        setMovies(data.Search);
+        setTotalPages(Math.ceil(data.totalResults / 10));
+      } else {
+        setMovies([]);
+        setTotalPages(1);
+      }
+    } catch (error) {
+      console.error("Error searching movies:", error);
+      setMovies([]);
+    }
   };
 
   const handleSearch = (query) => {
     setSearchQuery(query);
     setCurrentPage(1);
-    if (query) searchMovies(query);
-    else fetchRandomMovies();
+    query ? searchMovies(query) : fetchRandomMovies();
   };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    if (searchQuery) searchMovies(searchQuery, page);
+    if (searchQuery) {
+      searchMovies(searchQuery, page);
+    }
     window.scrollTo(0, 0);
   };
 
-  const handleMovieClick = (imdbID) => {
-    fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${apiKey}`)
-      .then(response => response.json())
-      .then(data => setSelectedMovie(data));
+  const handleMovieClick = async (imdbID) => {
+    try {
+      const response = await fetch(
+        `http://www.omdbapi.com/?i=${imdbID}&apikey=${API_KEY}`
+      );
+      const data = await response.json();
+      setSelectedMovie(data);
+    } catch (error) {
+      console.error("Error fetching movie details:", error);
+    }
   };
-
-  const closeModal = () => setSelectedMovie(null);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -89,9 +109,8 @@ function App() {
 
   const getCurrentMovies = () => {
     if (searchQuery) return movies;
-    const startIndex = (currentPage - 1) * 26;
-    const endIndex = startIndex + 26;
-    return movies.slice(startIndex, endIndex);
+    const startIndex = (currentPage - 1) * MOVIES_PER_PAGE;
+    return movies.slice(startIndex, startIndex + MOVIES_PER_PAGE);
   };
 
   return (
@@ -99,8 +118,17 @@ function App() {
       <LogoButton onClick={fetchRandomMovies} />
       <SearchBar onSearch={handleSearch} />
       <MovieList movies={getCurrentMovies()} onMovieClick={handleMovieClick} />
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-      {selectedMovie && <MovieModal movie={selectedMovie} onClose={closeModal} />}
+      <Pagination 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        onPageChange={handlePageChange} 
+      />
+      {selectedMovie && (
+        <MovieModal 
+          movie={selectedMovie} 
+          onClose={() => setSelectedMovie(null)} 
+        />
+      )}
     </div>
   );
 }
