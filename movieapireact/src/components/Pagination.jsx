@@ -1,8 +1,12 @@
 import React from "react";
 import "../styles/movie.css";
 
+/**
+ * Pagination-Komponente für Seiten-Navigation
+ * Zeigt Buttons für Seiten-Wechsel
+ */
 function Pagination({ currentPage, totalPages, onPageChange }) {
-  // Hilfsfunktion für bessere Lesbarkeit
+  // Hilfsfunktion für aktive Seite
   const isActivePage = (pageNum) => currentPage === pageNum;
   
   const getPageNumbers = () => {

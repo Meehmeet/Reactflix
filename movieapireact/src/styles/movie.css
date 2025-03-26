@@ -1,220 +1,248 @@
-/* General Styles */
+:root {
+  --background-color: #1a1a1a;
+  --text-color: #ffffff;
+  --card-background: #2c2c2c;
+  --modal-background: #333333;
+  --search-bg: #0d0b0b;
+  --search-text: #7f7777;
+  --search-border: #7f7777;
+}
+
+/* Allgemeine Styles */
 body {
-    overflow-x: hidden;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background-color: #0D0B0B; /* Fix white border at bottom */
-  }
-   
-  .background {
-    background-color: #0d0b0b;
-    width: 100vw;
-    min-height: 100vh;
-    color: #fff;
-  }
-   
-  /* Search Bar */
-  .search-container {
-    position: relative;
-  }
-   
-  .search-input {
-    position: absolute;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    border-color: #7f7777;
-    color: #7f7777;
-    background-color: #0d0b0b;
-    margin-left: 40px;
-    margin-top: 10px;
-    padding: 10px;
-    padding-right: 300px;
-    border: solid;
-  }
-   
-  .search-input:focus {
-    outline: none;
-  }
-   
-  .lupe-icon {
-    width: 50px;
-    height: 50px;
-  }
-   
-  .search-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin-left: 605px;
-    margin-top: 10px;
-    position: absolute;
-  }
-   
-  .search-button img {
-    width: 50px;
-    height: 50px;
-  }
-   
-  /* Logo and Image Wrapper */
-  .image-wrapper {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-  }
-   
-  .nacho-img {
-    width: 100px;
-    margin: 0 10px;
-  }
-   
-  .logo-img {
-    width: 250px;
-  }
-   
-  .logo-button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    width: 250px;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-   
-  .logo-button:focus {
-    outline: none;
-  }
-   
-  /* Movie List */
-  .movie-wrapper {
-    padding-left: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 10px;
-    margin-top: 70px;
-  }
-   
-  .movie {
-    cursor: pointer;
-  }
-   
-  .movie-poster {
-    width: 200px;
-    height: 327px;
-    border-radius: 8px;
-    transition: transform 0.2s;
-  }
-   
-  .movie-poster:hover {
-    transform: scale(1.05);
-  }
-   
-  /* Pagination */
-  .pagination-container {
-    position: relative;
-    width: 100vw;
-    bottom: 0;
-    left: 0;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-   
-  .page-button {
-    padding: 5px 12px;
-    font-size: 14px;
-    background-color: #7f7777;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 5px;
-  }
-   
-  .page-button.active {
-    background-color: #444;
-    color: #fff;
-    border: 1px solid #fff;
-    font-weight: bold;
-  }
-   
-  .page-button:hover {
-    background-color: #555;
-  }
-   
-  .modal {
-    display: flex;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
-  }
-   
-  .modal-content {
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    background-color: #1c1c1c;
-    padding: 20px;
-    border-radius: 12px;
-    width: 500px;
-    max-width: 90%;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    color: #f1f1f1;
-    text-align: left;
-  }
-   
-  .modal-details {
-    max-width: 60%;
-    margin-right: 20px;
-  }
-   
-  .movie-poster-modal {
-    max-width: 45%;
-    height: auto;
-    border-radius: 8px;
-    margin-left: 20px;
-    margin-top: 160px;
-  }
-   
-  .close-button {
-    position: absolute;
-    background-color: transparent;
-    margin-left: 410px;
-    width: 0px;
-    height: 0px;
-    cursor: pointer;
-  }
-   
-  .close-button img {
-    width: 100px;
-    height: 58px;
-  }
-   
-  /* Scrollbar */
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-   
-  ::-webkit-scrollbar-track {
-    background: #7f7777;
-  }
-   
-  ::-webkit-scrollbar-thumb {
-    background: #555;
-    border-radius: 10px;
-  }
-   
-  ::-webkit-scrollbar-thumb:hover {
-    background: #444;
-  }
+  overflow-x: hidden;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.background {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Logo und Image Wrapper */
+.image-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  margin-bottom: 20px; /* Abstand zwischen Logo und Suchleiste */
+}
+
+.nacho-img {
+  width: 100px;
+  margin: 0 10px;
+}
+
+.logo-img {
+  width: 250px;
+}
+
+.logo-button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 250px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-button:focus {
+  outline: none;
+}
+
+/* Search Bar - Repositioned below logo */
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100vw;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.search-input {
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  border-color: var(--search-border);
+  color: var(--search-text);
+  background-color: var(--search-bg);
+  padding: 10px;
+  width: 600px; /* Fixed width */
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.lupe-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative; /* Change from absolute to relative */
+  margin-left: 10px; /* Add margin to separate from input */
+}
+
+.search-button img {
+  width: 50px;
+  height: 50px;
+}
+
+/* Movie List */
+.movie-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the movies */
+  gap: 15px;
+  margin: 70px auto 20px auto;
+  max-width: 1600px;
+  padding: 0 20px;
+}
+
+.movie {
+  margin-bottom: 15px;
+  flex: 0 0 auto;
+}
+
+.movie-poster {
+  width: 200px;
+  height: 327px;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.movie-poster:hover {
+  transform: scale(1.05);
+}
+
+.movie-card {
+  background-color: var(--card-background);
+  transition: all 0.3s ease;
+}
+
+/* Pagination */
+.pagination-container {
+  position: relative;
+  width: 100vw;
+  bottom: 0;
+  left: 0;
+  margin: 20px 0 40px 0;
+  text-align: center;
+}
+
+.page-button {
+  padding: 5px 12px;
+  font-size: 14px;
+  background-color: var(--card-background);
+  color: var(--text-color);
+  border: 1px solid var(--search-border);
+  cursor: pointer;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.page-button.active {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  border: 1px solid #fff;
+  font-weight: bold;
+}
+
+.page-button:hover {
+  background-color: #555;
+}
+
+.modal {
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: var(--modal-background);
+  padding: 20px;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.modal-details {
+  max-width: 60%;
+  margin-right: 20px;
+}
+
+.movie-poster-modal {
+  max-width: 45%;
+  height: auto;
+  border-radius: 8px;
+  margin-left: 20px;
+  margin-top: 160px;
+}
+
+.close-button {
+  position: absolute;
+  background-color: transparent;
+  right: 20px;
+  top: 20px;
+  width: 0px;
+  height: 0px;
+  cursor: pointer;
+}
+
+.close-button img {
+  width: 100px;
+  height: 58px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #7f7777;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}

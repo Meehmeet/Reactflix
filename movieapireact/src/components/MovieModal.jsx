@@ -1,6 +1,10 @@
 import React from "react";
 import "../styles/movie.css";
 
+/**
+ * Modal-Komponente für Movie-Details
+ * Zeigt ausführliche Infos und grosses Poster
+ */
 function MovieModal({ movie, onClose }) {
   if (!movie) return null;
 
