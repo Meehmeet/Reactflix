@@ -2,10 +2,7 @@ import React from "react";
 import MovieCard from "./MovieCard";
 import "../styles/movie.css";
 
-/**
- * Diese Komponente zeigt alle Movie-Karten als Grid
- * Verwaltet die Liste von Movies auf der Hauptseite
- */
+
 function MovieList({ movies, onMovieClick }) {
   return (
     <div className="movie-wrapper">

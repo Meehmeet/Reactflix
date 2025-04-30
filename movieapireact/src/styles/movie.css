@@ -199,6 +199,7 @@ body {
   color: var(--text-color);
   text-align: left;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .modal-details {
@@ -214,19 +215,26 @@ body {
   margin-top: 160px;
 }
 
+/* Fix for close button positioning */
 .close-button {
   position: absolute;
   background-color: transparent;
-  right: 20px;
-  top: 20px;
-  width: 0px;
-  height: 0px;
+  right: 15px;
+  top: 15px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
+  border: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .close-button img {
-  width: 100px;
-  height: 58px;
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
 }
 
 /* Scrollbar */
@@ -245,4 +253,27 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
+}
+
+/* Network Warning */
+.network-warning {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.network-warning-content {
+  background-color: #ff5555;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.warning-icon {
+  font-size: 24px;
+  margin-right: 10px;
 }

@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import "../styles/movie.css";
 
-/**
- * Such-Komponente für Movie-Suche
- * Enthält Input-Feld und Button mit Lupe
- */
+
 function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
 

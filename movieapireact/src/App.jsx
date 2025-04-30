@@ -4,6 +4,7 @@ import MovieList from "./components/MovieList";
 import MovieModal from "./components/MovieModal";
 import Pagination from "./components/Pagination";
 import LogoButton from "./components/LogoButton";
+import NetworkStatus from "./components/NetworkStatus";
 import "./styles/movie.css";
 
 function App() {
@@ -12,9 +13,27 @@ function App() {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   const apiKey = "d1d69919";
 
-  useEffect(() => { fetchRandomMovies(); }, []);
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
+  useEffect(() => { 
+    if (isOnline) {
+      fetchRandomMovies();
+    }
+  }, [isOnline]);
 
   const fetchRandomMovies = () => {
     setSearchQuery("");
@@ -30,13 +49,13 @@ function App() {
     ];
 
     const shuffledTitles = shuffleArray(randomTitles);
-    const promises = shuffledTitles.map(title =>
+    const titlesrandom = shuffledTitles.map(title =>
       fetch(`http://www.omdbapi.com/?s=${title}&apikey=${apiKey}`)
         .then(response => response.json())
         .then(data => data.Search || [])
     );
 
-    Promise.all(promises).then(results => {
+    Promise.all(titlesrandom).then(results => {
       const allMovies = results.flat();
       setMovies(allMovies);
       setTotalPages(Math.ceil(allMovies.length / 26));
@@ -98,6 +117,7 @@ function App() {
     <div className="background">
       <LogoButton onClick={fetchRandomMovies} />
       <SearchBar onSearch={handleSearch} />
+      {!isOnline && <NetworkStatus />}
       <MovieList movies={getCurrentMovies()} onMovieClick={handleMovieClick} />
       <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       {selectedMovie && <MovieModal movie={selectedMovie} onClose={closeModal} />}
